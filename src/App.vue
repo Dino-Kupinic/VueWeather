@@ -16,4 +16,7 @@ export default defineComponent({
 
 
 <style>
+body {
+  font-family: Arial, serif;
+}
 </style>
