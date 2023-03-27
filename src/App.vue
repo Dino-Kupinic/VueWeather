@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <Header @location-change="getNewLocation"/>
 
 </template>
 
@@ -10,6 +10,11 @@ import Header from "@/components/Header.vue";
 export default defineComponent({
   components: {
     Header
+  },
+  methods: {
+    getNewLocation(data: String) {
+      console.log(data);
+    }
   }
 });
 </script>
