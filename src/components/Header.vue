@@ -2,9 +2,11 @@
   <nav>
     <h1>VueWeather</h1>
     <ul>
-      <li><Searchbar /></li>
       <li>
-        <button>?</button>
+        <Searchbar @location-change="passNewLocation"/>
+      </li>
+      <li>
+        <Button text="?"/>
       </li>
     </ul>
   </nav>
@@ -13,11 +15,18 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import Searchbar from "@/components/Searchbar.vue";
+import Button from "@/components/Button.vue";
 
 export default defineComponent({
   name: "Header",
   components: {
+    Button,
     Searchbar
+  },
+  methods: {
+    passNewLocation(data: String) {
+      this.$emit("location-change", data);
+    }
   }
 });
 </script>
