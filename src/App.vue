@@ -1,27 +1,36 @@
 <template>
-  <Header @location-change="getNewLocation"/>
-
+    <Header @location-change="getNewLocation"/>
+    <h1 id="location">{{ userInput }}</h1>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent, toRaw} from "vue";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
-  components: {
-    Header
-  },
-  methods: {
-    getNewLocation(data: String) {
-      console.log(data);
+    components: {
+        Header
+    },
+    data(): { userInput: string } {
+        return {
+            userInput: ""
+        };
+    },
+    methods: {
+        getNewLocation(data: string) : void {
+            this.userInput = toRaw(data);
+        }
     }
-  }
 });
 </script>
 
 
 <style>
 body {
-  font-family: Arial, serif;
+    font-family: Arial, serif;
+}
+
+#location {
+    text-align: center;
 }
 </style>
