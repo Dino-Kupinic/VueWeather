@@ -15,5 +15,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+button {
+    border-radius: 5px;
 
+    font-size: 20px;
+}
 </style>
