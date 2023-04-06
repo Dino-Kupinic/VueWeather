@@ -1,6 +1,14 @@
 <template>
     <Header @location-change="getNewLocation"/>
-    <h1 id="location">{{ userInput }}</h1>
+
+    <div id="main-container">
+        <h1 id="location">{{ userInput }}</h1>
+        <p id="time">{{ currentTime }}</p>
+    </div>
+
+    <div id="details-container">
+
+    </div>
 </template>
 
 <script lang="ts">
