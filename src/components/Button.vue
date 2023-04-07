@@ -16,8 +16,10 @@ export default defineComponent({
 
 <style scoped>
 button {
+    padding: 5px;
+    border: 1px solid gray;
     border-radius: 5px;
-
+    font-family: 'Roboto', serif;
     font-size: 20px;
 }
 </style>
