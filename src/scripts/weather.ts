@@ -19,7 +19,8 @@ export async function fetchData(location: Location) {
         .then(data => data.json())
         .then(data => {
             console.log(data);
-        }).catch(error => {console.error(error);
+        }).catch(error => {
+        console.error(error);
     });
 }
 
