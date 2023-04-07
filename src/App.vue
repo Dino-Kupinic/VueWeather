@@ -4,6 +4,7 @@
     <div id="main-container" v-if="userInput !== ''">
         <h1 id="location">{{ userInput }}</h1>
         <h3 id="time">{{ currentTime }}</h3>
+        <h4 id="day">{{ currentDay }}</h4>
     </div>
 
     <div id="details-container">
@@ -15,16 +16,23 @@
 import {defineComponent, toRaw} from "vue";
 import {Location} from "@/scripts/location";
 import Header from "@/components/Header.vue";
-import {getTime} from "@/scripts/weather";
+import {getDay, getTime} from "@/scripts/weather";
+
+const FIVE_MINUTES = 300_000;
 
 export default defineComponent({
     components: {
         Header
     },
-    data(): { userInput: string, currentTime: string } {
+    data(): {
+        userInput: string,
+        currentTime: string,
+        currentDay: string
+    } {
         return {
             userInput: "",
-            currentTime: ""
+            currentTime: "",
+            currentDay: "",
         };
     },
     methods: {
@@ -38,10 +46,15 @@ export default defineComponent({
         },
         updateTime(): void {
             setInterval(() => this.currentTime = getTime(), 1000);
+        },
+        updateDay(): void {
+            this.currentDay = getDay();
+            setTimeout(this.updateDay, FIVE_MINUTES);
         }
     },
     mounted() {
         this.updateTime();
+        this.updateDay();
     }
 });
 </script>
