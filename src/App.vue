@@ -3,8 +3,10 @@
 
     <div id="main-container" v-if="userInput !== ''">
         <h1 id="location">{{ userInput }}</h1>
-        <h3 id="time">{{ currentTime }}</h3>
-        <h4 id="day">{{ currentDay }}</h4>
+        <div id="time-date-container">
+            <h3 id="time">{{ currentTime }}</h3>
+            <h4 id="day">{{ currentDay }}</h4>
+        </div>
     </div>
 
     <div id="details-container">
@@ -65,7 +67,7 @@ body {
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     background-size: 300% 300%;
 
-    font-family: Arial, serif;
+    font-family: 'Roboto', serif;
 }
 
 #main-container {
@@ -80,6 +82,13 @@ body {
 
 #location {
     font-size: 60px;
+}
+
+#time-date-container {
+    border: 1px solid black;
+    width: 20%;
+    border-radius: 20px;
+    margin: auto;
 }
 
 
