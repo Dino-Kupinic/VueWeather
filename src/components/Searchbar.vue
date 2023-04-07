@@ -22,7 +22,10 @@ export default defineComponent({
 
 <style scoped>
 input {
+    padding: 5px;
+    border: 1px solid gray;
     border-radius: 5px;
     font-size: 20px;
+    font-family: 'Roboto', serif;
 }
 </style>
