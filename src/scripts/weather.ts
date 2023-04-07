@@ -15,12 +15,22 @@ export const WEEK_DAYS: Array<string> = [
 
 export async function fetchData(location: Location) {
     const finalAPIkey = API_KEY_PART_1 + location.name + "," + location.countryCode + API_KEY_PART_2;
-    fetch(finalAPIkey).then(data => data.json()).then(data => {
-        console.log(data);
+    fetch(finalAPIkey)
+        .then(data => data.json())
+        .then(data => {
+            console.log(data);
+        }).catch(error => {console.error(error);
     });
 }
 
 export function getTime(): string {
-    const tempDate: string = new Date().toTimeString();
-    return tempDate.substring(0, tempDate.indexOf("("));
+    const tempTime: string = new Date().toTimeString();
+    return tempTime.substring(0, tempTime.indexOf(" "));
 }
+
+export function getDay(): string {
+    const tempDay: string = new Date().toDateString();
+    return tempDay;
+}
+
+
