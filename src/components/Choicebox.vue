@@ -24,7 +24,10 @@ export default defineComponent({
 
 <style scoped>
 select {
+    padding: 4px;
+    border: 1px solid gray;
+    font-family: 'Roboto', serif;
     border-radius: 5px;
-    font-size: 22px;
+    font-size: 20px;
 }
 </style>
