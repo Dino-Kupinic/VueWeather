@@ -1,9 +1,9 @@
 <template>
     <Header @location-change="getNewLocation"/>
 
-    <div id="main-container">
+    <div id="main-container" v-if="userInput !== ''">
         <h1 id="location">{{ userInput }}</h1>
-        <p id="time">{{ currentTime }}</p>
+        <h3 id="time">{{ currentTime }}</h3>
     </div>
 
     <div id="details-container">
@@ -30,17 +30,21 @@ export default defineComponent({
     methods: {
         getNewLocation(data: string): void {
             this.userInput = toRaw(data);
-            this.currentTime = getTime();
 
 
             const locationObject = new Location();
             locationObject.name = this.userInput;
             console.log(locationObject.name);
+        },
+        updateTime(): void {
+            setInterval(() => this.currentTime = getTime(), 1000);
         }
     },
+    mounted() {
+        this.updateTime();
+    }
 });
 </script>
-
 
 <style>
 body {
@@ -52,6 +56,11 @@ body {
 }
 
 #main-container {
+    background-color: white;
+    border-radius: 20px;
+    margin: 100px auto auto;
+    padding: 20px;
+    width: 75%;
     text-align: center;
     font-weight: bold;
 }
