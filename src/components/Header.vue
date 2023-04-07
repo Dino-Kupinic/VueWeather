@@ -9,7 +9,7 @@
                 <Searchbar @location-change="passNewLocation"/>
             </li>
             <li>
-                <Button text="?" :func="test"/>
+                <Button text="Settings" :func="test"/>
             </li>
         </ul>
     </nav>
