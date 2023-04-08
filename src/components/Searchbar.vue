@@ -26,6 +26,6 @@ input {
     border: 1px solid gray;
     border-radius: 5px;
     font-size: 20px;
-    font-family: 'Roboto', serif;
+    font-family: 'Roboto', sans-serif;
 }
 </style>

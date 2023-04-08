@@ -26,7 +26,7 @@ export default defineComponent({
 select {
     padding: 4px;
     border: 1px solid gray;
-    font-family: 'Roboto', serif;
+    font-family: 'Roboto', sans-serif;
     border-radius: 5px;
     font-size: 20px;
 }
