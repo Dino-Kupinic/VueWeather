@@ -12,6 +12,8 @@
     <div id="details-container">
 
     </div>
+
+    <Footer />
 </template>
 
 <script lang="ts">
@@ -19,11 +21,13 @@ import {defineComponent, toRaw} from "vue";
 import {Location} from "@/scripts/location";
 import Header from "@/components/Header.vue";
 import {getDay, getTime} from "@/scripts/weather";
+import Footer from "@/components/Footer.vue";
 
 const FIVE_MINUTES = 300_000;
 
 export default defineComponent({
     components: {
+        Footer,
         Header
     },
     data(): {
@@ -67,7 +71,7 @@ body {
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     background-size: 300% 300%;
 
-    font-family: 'Roboto', serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 #main-container {
@@ -78,6 +82,7 @@ body {
     width: 75%;
     text-align: center;
     font-weight: bold;
+    box-shadow: 4px 6px 6px rgb(0,0,0,0.2);
 }
 
 #location {
