@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <h1>VueWeather</h1>
+        <h1><span id="vue-title">Vue</span><span id="weather-title"> Weather</span></h1>
         <ul>
             <li>
                 <Choicebox :country-list="countryCodes"/>
@@ -50,6 +50,18 @@ export default defineComponent({
 <style scoped>
 h1 {
     font-size: 30px;
+}
+
+#vue-title {
+    font-size: 38px;
+    font-family: 'Gluten', cursive;
+    background: linear-gradient(to right, #b3ffab, #12fff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#weather-title {
+    font-family: 'Satisfy', cursive;
 }
 
 nav {
