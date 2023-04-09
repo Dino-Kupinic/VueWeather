@@ -1,24 +1,59 @@
 import type {Location} from "@/scripts/location";
 
-export const API_KEY_PART_1: string = "https://api.openweathermap.org/data/2.5/forecast?q=";
-export const API_KEY_PART_2: string = "&appid=d134cb284ef6ebbab66ea57a6b83f4f8";
-
-export const WEEK_DAYS: Array<string> = [
+/**
+ * Array containing all weekdays.
+ * Starts with Sunday because Date.getDay() returns from 0 - 6, where
+ * 0 represents Sunday.
+ */
+export const WEEK_DAYS: string[] = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday",
-    "Sunday"
+    "Saturday"
 ];
 
+export interface WeatherData {
+    city: {
+        coord: {
+            lat: number;
+            lon: number;
+        };
+        population: string
+    };
+    list: [{
+        dt_txt: string;
+        main: {
+            feels_like: number;
+            humidity: number;
+            sea_level: number;
+            temp: number;
+            temp_max: number;
+            temp_min: number;
+        };
+        wind: {
+            speed: number;
+        }
+    }];
+}
+
 export async function fetchData(location: Location) {
-    const finalAPIkey = API_KEY_PART_1 + location.name + "," + location.countryCode + API_KEY_PART_2;
-    fetch(finalAPIkey)
-        .then(data => data.json())
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location.name},${location.countryCode}&appid=d134cb284ef6ebbab66ea57a6b83f4f8`)
+        .then((response: Response) => response.json())
         .then(data => {
-            console.log(data);
+            for (let i: number = 0; i < data.list.length; i++) {
+                const weather: WeatherData = data;
+
+                const date: string = weather.list[i].dt_txt;
+                const weekDayNumber: number = new Date(date).getDay();
+                const weekDay: string = WEEK_DAYS[weekDayNumber];
+                console.log(weekDay);
+                if (date.includes("12:00")) {
+                    console.log(weather.list[i].main.temp);
+                }
+            }
         }).catch(error => {
         console.error(error);
     });
@@ -30,8 +65,7 @@ export function getTime(): string {
 }
 
 export function getDay(): string {
-    const tempDay: string = new Date().toDateString();
-    return tempDay;
+    return new Date().toDateString();
 }
 
 
