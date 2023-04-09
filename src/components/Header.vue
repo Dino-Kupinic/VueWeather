@@ -3,7 +3,7 @@
         <h1><span id="vue-title">Vue</span><span id="weather-title"> Weather</span></h1>
         <ul>
             <li>
-                <Choicebox :country-list="countryCodes"/>
+                <Choicebox :country-list="countryCodes" @country-change="passSelectedCountry"/>
             </li>
             <li>
                 <Searchbar @location-change="passNewLocation"/>
@@ -28,7 +28,7 @@ export default defineComponent({
         Button,
         Searchbar
     },
-    data(): { countryCodes: Array<string> } {
+    data(): { countryCodes: string[] } {
         return {
             countryCodes: [
                 "Austria, at", "United Kingdom, uk", "United States, us",
@@ -39,6 +39,9 @@ export default defineComponent({
     methods: {
         passNewLocation(data: string): void {
             this.$emit("location-change", data);
+        },
+        passSelectedCountry(data: string): void {
+            this.$emit("country-change", data);
         },
         test() {
             console.log("testButton");
