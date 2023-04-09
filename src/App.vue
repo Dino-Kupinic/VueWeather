@@ -1,5 +1,5 @@
 <template>
-    <Header @location-change="getNewLocation"/>
+    <Header @location-change="getNewLocation" @country-change="getNewCountry"/>
 
     <div id="main-container" v-if="userInput !== ''">
         <h1 id="location">{{ userInput }}</h1>
@@ -13,17 +13,18 @@
 
     </div>
 
-    <Footer />
+    <Footer/>
 </template>
 
 <script lang="ts">
 import {defineComponent, toRaw} from "vue";
 import {Location} from "@/scripts/location";
 import Header from "@/components/Header.vue";
-import {getDay, getTime} from "@/scripts/weather";
+import {fetchData, getDay, getTime} from "@/scripts/weather";
 import Footer from "@/components/Footer.vue";
 
 const FIVE_MINUTES = 300_000;
+const ONE_SECOND = 1_000;
 
 export default defineComponent({
     components: {
@@ -33,10 +34,12 @@ export default defineComponent({
     data(): {
         userInput: string,
         currentTime: string,
-        currentDay: string
+        currentDay: string,
+        locationCountry: string
     } {
         return {
             userInput: "",
+            locationCountry: "",
             currentTime: "",
             currentDay: "",
         };
@@ -44,18 +47,23 @@ export default defineComponent({
     methods: {
         getNewLocation(data: string): void {
             this.userInput = toRaw(data);
-
-
-            const locationObject = new Location();
-            locationObject.name = this.userInput;
-            console.log(locationObject.name);
+        },
+        getNewCountry(data: string): void {
+            this.locationCountry = toRaw(data);
         },
         updateTime(): void {
-            setInterval(() => this.currentTime = getTime(), 1000);
+            setInterval(() => this.currentTime = getTime(), ONE_SECOND);
         },
         updateDay(): void {
             this.currentDay = getDay();
             setTimeout(this.updateDay, FIVE_MINUTES);
+        }
+    },
+    watch: {
+        locationCountry(newLocation, oldLocation) {
+            if (newLocation !== "") {
+                fetchData(new Location(this.userInput, newLocation));
+            }
         }
     },
     mounted() {
@@ -74,6 +82,14 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+h3 {
+    font-size: 26px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
 #main-container {
     background-color: white;
     border-radius: 20px;
@@ -82,7 +98,7 @@ body {
     width: 75%;
     text-align: center;
     font-weight: bold;
-    box-shadow: 4px 6px 6px rgb(0,0,0,0.2);
+    box-shadow: 4px 6px 6px rgb(0, 0, 0, 0.2);
 }
 
 #location {
@@ -90,11 +106,10 @@ body {
 }
 
 #time-date-container {
-    border: 1px solid black;
+    border: 2px solid gray;
     width: 20%;
-    border-radius: 20px;
+    border-radius: 30px;
     margin: auto;
 }
-
 
 </style>
