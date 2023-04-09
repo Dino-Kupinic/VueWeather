@@ -1,5 +1,5 @@
 <template>
-    <select>
+    <select @input="passSelectedCountry" v-model="selected">
         <option disabled="disabled">please select a country</option>
         <option v-for="code in countryList" :key="code"> {{ code }}</option>
     </select>
@@ -18,7 +18,11 @@ export default defineComponent({
     props: {
         countryList: Array
     },
-    methods: {}
+    methods: {
+        passSelectedCountry(): void {
+            this.$emit("country-change", this.selected.substring(this.selected.indexOf(", ") + 2, this.selected.length));
+        }
+    }
 });
 </script>
 
