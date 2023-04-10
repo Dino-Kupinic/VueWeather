@@ -15,13 +15,22 @@ export const WEEK_DAYS: string[] = [
     "Saturday"
 ];
 
+export interface WeatherForecast {
+    name: string;
+    windSpeed: number;
+    averageTemperature: number;
+    maximumTemperature: number;
+    minimumTemperature: number;
+    temperateFeelsLike: number;
+}
+
 export interface WeatherData {
     city: {
         coord: {
             lat: number;
             lon: number;
-        };
-        population: string
+        }
+        population: string;
     };
     list: [{
         dt_txt: string;
@@ -32,31 +41,46 @@ export interface WeatherData {
             temp: number;
             temp_max: number;
             temp_min: number;
-        };
+        }
         wind: {
             speed: number;
         }
     }];
 }
 
-export async function fetchData(location: Location) {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location.name},${location.countryCode}&appid=d134cb284ef6ebbab66ea57a6b83f4f8`)
-        .then((response: Response) => response.json())
-        .then(data => {
-            for (let i: number = 0; i < data.list.length; i++) {
-                const weather: WeatherData = data;
-
-                const date: string = weather.list[i].dt_txt;
-                const weekDayNumber: number = new Date(date).getDay();
-                const weekDay: string = WEEK_DAYS[weekDayNumber];
-                console.log(weekDay);
-                if (date.includes("12:00")) {
-                    console.log(weather.list[i].main.temp);
-                }
-            }
-        }).catch(error => {
-        console.error(error);
+export async function fetchData(location: Location): Promise<WeatherForecast[]> {
+    return new Promise((resolve, reject): void => {
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location.name},${location.countryCode}&appid=d134cb284ef6ebbab66ea57a6b83f4f8`)
+            .then((response: Response) => response.json())
+            .then(data => {
+                resolve(processJSONdata(data));
+            }).catch(error => {
+            reject(error);
+        });
     });
+}
+
+function processJSONdata(weather: WeatherData): WeatherForecast[] {
+    const weatherForecastArray: WeatherForecast[] = [];
+    for (let i: number = 0; i < weather.list.length; i++) {
+
+        const date: string = weather.list[i].dt_txt;
+        const weekDayNumber: number = new Date(date).getDay();
+        const weekDay: string = WEEK_DAYS[weekDayNumber];
+
+        if (date.includes("12:00")) {
+            const day: WeatherForecast = {
+                name: weekDay,
+                windSpeed: weather.list[i].wind.speed,
+                averageTemperature: weather.list[i].main.temp,
+                maximumTemperature: weather.list[i].main.temp_max,
+                minimumTemperature: weather.list[i].main.temp_min,
+                temperateFeelsLike: weather.list[i].main.feels_like
+            };
+            weatherForecastArray.push(day);
+        }
+    }
+    return weatherForecastArray;
 }
 
 export function getTime(): string {
@@ -67,5 +91,3 @@ export function getTime(): string {
 export function getDay(): string {
     return new Date().toDateString();
 }
-
-
