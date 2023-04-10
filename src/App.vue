@@ -21,6 +21,7 @@ import {defineComponent, toRaw} from "vue";
 import {Location} from "@/scripts/location";
 import Header from "@/components/Header.vue";
 import {fetchData, getDay, getTime} from "@/scripts/weather";
+import type {WeatherForecast} from "@/scripts/weather";
 import Footer from "@/components/Footer.vue";
 
 const FIVE_MINUTES = 300_000;
@@ -60,9 +61,20 @@ export default defineComponent({
         }
     },
     watch: {
-        locationCountry(newLocation, oldLocation) {
+        async locationCountry(newLocation, oldLocation) {
             if (newLocation !== "") {
-                fetchData(new Location(this.userInput, newLocation));
+                const weatherForecastArray: WeatherForecast[] = await fetchData(new Location(this.userInput, newLocation));
+                for (const day of weatherForecastArray) {
+                    const div = document.createElement("div");
+                    const h1 = document.createElement("h1");
+                    div.style.backgroundColor = "red";
+                    div.style.width = "200px";
+                    div.style.height = "200px";
+                    console.log(day.name)
+                    div.appendChild(h1);
+                    document.appendChild(div);
+                }
+
             }
         }
     },
