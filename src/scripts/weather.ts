@@ -22,6 +22,9 @@ export interface WeatherForecast {
     maximumTemperature: number;
     minimumTemperature: number;
     temperateFeelsLike: number;
+    currentWeather: string;
+    description: string;
+    icon: string;
 }
 
 export interface WeatherData {
@@ -42,6 +45,11 @@ export interface WeatherData {
             temp_max: number;
             temp_min: number;
         }
+        weather: [{
+            description: string;
+            icon: string;
+            main: string;
+        }]
         wind: {
             speed: number;
         }
@@ -53,6 +61,7 @@ export async function fetchData(location: Location): Promise<WeatherForecast[]> 
         fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location.name},${location.countryCode}&appid=d134cb284ef6ebbab66ea57a6b83f4f8`)
             .then((response: Response) => response.json())
             .then(data => {
+                console.log(data);
                 resolve(processJSONdata(data));
             }).catch(error => {
             reject(error);
@@ -62,6 +71,7 @@ export async function fetchData(location: Location): Promise<WeatherForecast[]> 
 
 function processJSONdata(weather: WeatherData): WeatherForecast[] {
     const weatherForecastArray: WeatherForecast[] = [];
+    const KELVIN_TO_CELSIUS: number = 273.15;
     for (let i: number = 0; i < weather.list.length; i++) {
 
         const date: string = weather.list[i].dt_txt;
@@ -72,10 +82,13 @@ function processJSONdata(weather: WeatherData): WeatherForecast[] {
             const day: WeatherForecast = {
                 name: weekDay,
                 windSpeed: weather.list[i].wind.speed,
-                averageTemperature: weather.list[i].main.temp,
-                maximumTemperature: weather.list[i].main.temp_max,
-                minimumTemperature: weather.list[i].main.temp_min,
-                temperateFeelsLike: weather.list[i].main.feels_like
+                averageTemperature: Math.round(weather.list[i].main.temp - KELVIN_TO_CELSIUS),
+                maximumTemperature: Math.round(weather.list[i].main.temp_max - KELVIN_TO_CELSIUS),
+                minimumTemperature: Math.round(weather.list[i].main.temp_min - KELVIN_TO_CELSIUS),
+                temperateFeelsLike: Math.round(weather.list[i].main.feels_like - KELVIN_TO_CELSIUS),
+                description: weather.list[i].weather[0].description,
+                icon: weather.list[i].weather[0].icon,
+                currentWeather: weather.list[i].weather[0].main
             };
             weatherForecastArray.push(day);
         }
