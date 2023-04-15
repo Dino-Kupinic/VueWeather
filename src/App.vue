@@ -9,6 +9,13 @@
         </div>
     </div>
 
+    <div id="day-container">
+        <div class="day" v-for="day of days">
+            <h2>{{ day.name }}</h2>
+            <h3>{{ day.averageTemperature }} °C</h3>
+        </div>
+    </div>
+
     <div id="details-container">
 
     </div>
@@ -36,13 +43,15 @@ export default defineComponent({
         userInput: string,
         currentTime: string,
         currentDay: string,
-        locationCountry: string
+        locationCountry: string,
+        days: WeatherForecast[]
     } {
         return {
             userInput: "",
             locationCountry: "",
             currentTime: "",
             currentDay: "",
+            days: [] as WeatherForecast[]
         };
     },
     methods: {
@@ -65,16 +74,8 @@ export default defineComponent({
             if (newLocation !== "") {
                 const weatherForecastArray: WeatherForecast[] = await fetchData(new Location(this.userInput, newLocation));
                 for (const day of weatherForecastArray) {
-                    const div = document.createElement("div");
-                    const h1 = document.createElement("h1");
-                    div.style.backgroundColor = "red";
-                    div.style.width = "200px";
-                    div.style.height = "200px";
-                    console.log(day.name)
-                    div.appendChild(h1);
-                    document.appendChild(div);
+                    this.days.push(day);
                 }
-
             }
         }
     },
@@ -90,7 +91,6 @@ body {
     margin: 0;
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     background-size: 300% 300%;
-
     font-family: 'Roboto', sans-serif;
 }
 
@@ -122,6 +122,23 @@ h4 {
     width: 20%;
     border-radius: 30px;
     margin: auto;
+}
+
+.day {
+    display: inline-block;
+    width: 100%;
+    height: 500px;
+    box-shadow: 4px 6px 6px rgb(0, 0, 0, 0.2);
+    background-color: white;
+    border-radius: 20px;
+}
+
+#day-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 25px;
+    width: 75%;
+    margin: 50px auto auto;
 }
 
 </style>
