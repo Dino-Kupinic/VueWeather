@@ -19,8 +19,9 @@ export default defineComponent({
 
 <style scoped>
 footer {
-    border-top: 20px solid #e7ffef;
     position: fixed;
+    margin-top: 100px;
+    border-top: 20px solid #e7ffef;
     bottom: 0;
     width: 100%;
     height: 100px;
