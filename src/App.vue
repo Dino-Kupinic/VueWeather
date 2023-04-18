@@ -11,8 +11,11 @@
 
     <div id="day-container">
         <div class="day" v-for="day of days">
-            <h2>{{ day.name }}</h2>
+            <h1>{{ day.name }}</h1>
             <h3>{{ day.averageTemperature }} °C</h3>
+            <p>Feels like {{day.temperateFeelsLike}} °C</p>
+            <img src="{{day.icon}}" alt="noImage">
+            <h4>{{day.currentWeather}}</h4>
         </div>
     </div>
 
@@ -127,7 +130,7 @@ h4 {
 .day {
     display: inline-block;
     width: 100%;
-    height: 500px;
+    height: 450px;
     box-shadow: 4px 6px 6px rgb(0, 0, 0, 0.2);
     background-color: white;
     border-radius: 20px;
@@ -138,6 +141,7 @@ h4 {
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 25px;
     width: 75%;
+    text-align: center;
     margin: 50px auto auto;
 }
 

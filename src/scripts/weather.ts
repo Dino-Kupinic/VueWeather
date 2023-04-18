@@ -87,13 +87,17 @@ function processJSONdata(weather: WeatherData): WeatherForecast[] {
                 minimumTemperature: Math.round(weather.list[i].main.temp_min - KELVIN_TO_CELSIUS),
                 temperateFeelsLike: Math.round(weather.list[i].main.feels_like - KELVIN_TO_CELSIUS),
                 description: weather.list[i].weather[0].description,
-                icon: weather.list[i].weather[0].icon,
+                icon: fetchWeatherImage(weather.list[i].weather[0].icon),
                 currentWeather: weather.list[i].weather[0].main
             };
             weatherForecastArray.push(day);
         }
     }
     return weatherForecastArray;
+}
+
+function fetchWeatherImage(icon: string): string {
+    return `https://openweathermap.org/img/wn/${icon}.png`;
 }
 
 export function getTime(): string {
