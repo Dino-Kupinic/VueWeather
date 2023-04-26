@@ -1,7 +1,7 @@
 <template>
     <select @input="passSelectedCountry" v-model="selected">
         <option disabled="disabled">please select a country</option>
-        <option v-for="code in countryList" :key="code"> {{ code }}</option>
+        <option v-for="code in countryList" selected :key="code"> {{ code }}</option>
     </select>
 </template>
 
@@ -12,7 +12,7 @@ export default defineComponent({
     name: "Choicebox",
     data(): { selected: string } {
         return {
-            selected: ""
+            selected: "Austria, at"
         };
     },
     props: {

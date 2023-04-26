@@ -14,7 +14,7 @@
             <h1>{{ day.name }}</h1>
             <h3>{{ day.averageTemperature }} °C</h3>
             <p>Feels like {{day.temperateFeelsLike}} °C</p>
-            <img src="{{day.icon}}" alt="noImage">
+            <img :src="fetchWeatherImage(day.icon)" alt="noImage">
             <h4>{{day.currentWeather}}</h4>
         </div>
     </div>
@@ -30,7 +30,7 @@
 import {defineComponent, toRaw} from "vue";
 import {Location} from "@/scripts/location";
 import Header from "@/components/Header.vue";
-import {fetchData, getDay, getTime} from "@/scripts/weather";
+import {fetchData, fetchWeatherImage, getDay, getTime} from "@/scripts/weather";
 import type {WeatherForecast} from "@/scripts/weather";
 import Footer from "@/components/Footer.vue";
 
@@ -58,6 +58,7 @@ export default defineComponent({
         };
     },
     methods: {
+        fetchWeatherImage,
         getNewLocation(data: string): void {
             this.userInput = toRaw(data);
         },
@@ -73,12 +74,17 @@ export default defineComponent({
         }
     },
     watch: {
-        async locationCountry(newLocation, oldLocation) {
+        async userInput(newLocation) {
             if (newLocation !== "") {
                 const weatherForecastArray: WeatherForecast[] = await fetchData(new Location(this.userInput, newLocation));
-                for (const day of weatherForecastArray) {
-                    this.days.push(day);
+                if (weatherForecastArray.length != null || undefined) {
+                    for (const day of weatherForecastArray) {
+                        console.log(day)
+                        this.days.push(day);
+                    }
                 }
+            } else {
+                this.days = [];
             }
         }
     },
