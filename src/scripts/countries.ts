@@ -1,0 +1,22 @@
+export const countries: string[] = [
+    "Austria, at",
+    "Brazil, br",
+    "Canada, ca",
+    "Denmark, dk",
+    "Egypt, eg",
+    "France, fr",
+    "Germany, de",
+    "Hungary, hu",
+    "India, in",
+    "Japan, jp",
+    "Kenya, ke",
+    "Lebanon, lb",
+    "Mexico, mx",
+    "Netherlands, nl",
+    "Oman, om",
+    "Poland, pl",
+    "Qatar, qa",
+    "Russia, ru",
+    "Sweden, se",
+    "Turkey, tr"
+]
