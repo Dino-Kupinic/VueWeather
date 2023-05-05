@@ -15,6 +15,9 @@ export const WEEK_DAYS: string[] = [
     "Saturday"
 ];
 
+export const FIVE_MINUTES_IN_MS = 300_000;
+export const ONE_SECOND_IN_MS = 1_000;
+
 export interface WeatherForecast {
     name: string;
     windSpeed: number;
