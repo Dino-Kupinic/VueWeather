@@ -1,6 +1,8 @@
 import App from "./App.vue";
 import {createApp} from "vue";
-import {run} from "@/scripts/logic";
+import {createPinia} from "pinia";
+import router from "@/router";
 
-createApp(App).mount("#app");
-run();
+const pinia = createPinia();
+
+createApp(App).use(pinia).use(router).mount("#app");
