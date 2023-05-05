@@ -1,23 +1,15 @@
 <template>
-    <input @input="passNewLocation" v-model="location" type="text" placeholder="Search...">
+    <input @keyup.enter="locationStore.updateLocation(location)" v-model="location" type="text" placeholder="Search...">
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script setup lang="ts">
+import {ref} from "vue";
+import {useLocationStore} from "@/stores/locationStore";
 
-export default defineComponent({
-    name: "Searchbar",
-    data(): { location: string } {
-        return {
-            location: ""
-        };
-    },
-    methods: {
-        passNewLocation(): void {
-            this.$emit("location-change", this.location);
-        }
-    },
-});
+const locationStore = useLocationStore();
+
+const location = ref<string>("");
+
 </script>
 
 <style scoped>
