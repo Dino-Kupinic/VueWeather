@@ -2,52 +2,22 @@
     <nav>
         <h1><span id="vue-title">Vue</span><span id="weather-title"> Weather</span></h1>
         <ul>
-            <li>
-                <Choicebox :country-list="countryCodes" @country-change="passSelectedCountry"/>
-            </li>
-            <li>
-                <Searchbar @location-change="passNewLocation"/>
-            </li>
-            <li>
-                <Button text="Settings" :func="test"/>
-            </li>
+            <li><ChoiceBox :country-list="countryCodes"/></li>
+            <li><Searchbar/></li>
+            <li><Button text="Settings"/></li>
         </ul>
     </nav>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script setup lang="ts">
+import {ref} from "vue";
 import Searchbar from "@/components/Searchbar.vue";
 import Button from "@/components/Button.vue";
-import Choicebox from "@/components/Choicebox.vue";
+import ChoiceBox from "@/components/ChoiceBox.vue";
+import {countries} from "@/scripts/countries";
 
-export default defineComponent({
-    name: "Header",
-    components: {
-        Choicebox,
-        Button,
-        Searchbar
-    },
-    data(): { countryCodes: string[] } {
-        return {
-            countryCodes: [
-                "Austria, at", "United Kingdom, uk", "United States, us",
-                "Germany, de", "Japan, jp", "Canada, cn"
-            ]
-        };
-    },
-    methods: {
-        passNewLocation(data: string): void {
-            this.$emit("location-change", data);
-        },
-        passSelectedCountry(data: string): void {
-            this.$emit("country-change", data);
-        },
-        test() {
-            console.log("testButton");
-        }
-    }
-});
+const countryCodes = ref<string[]>(countries);
+
 </script>
 
 <style scoped>

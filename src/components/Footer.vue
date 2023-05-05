@@ -1,20 +1,12 @@
 <template>
     <footer>
         <p>Copyright © 2023 Dino Kupinic All rights reserved.</p>
-        <ul>
-            <li><a href="src/subpages/impressum.html">Impressum</a></li>
-            <li><a href="src/subpages/impressum.html">Privacy Policy</a></li>
-            <li><a href="src/subpages/impressum.html">FAQ</a></li>
-        </ul>
+
     </footer>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script setup lang="ts">
 
-export default defineComponent({
-    name: "Footer"
-});
 </script>
 
 <style scoped>
@@ -24,7 +16,7 @@ footer {
     border-top: 20px solid #e7ffef;
     bottom: 0;
     width: 100%;
-    height: 100px;
+    height: 50px;
     background-color: white;
 }
 
