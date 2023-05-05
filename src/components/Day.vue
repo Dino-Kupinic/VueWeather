@@ -2,19 +2,13 @@
 
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script setup lang="ts">
+import {ref} from "vue";
 
-export default defineComponent({
-    name: "Day",
-    data(): { name: string, icon: string, temperatureInCelsius: number } {
-        return {
-            name: "",
-            icon: "",
-            temperatureInCelsius: 0,
-        };
-    }
-});
+const name = ref<string>("");
+const icon = ref<string>("");
+const temperatureInCelsius = ref<number>(0);
+
 </script>
 
 <style scoped>
