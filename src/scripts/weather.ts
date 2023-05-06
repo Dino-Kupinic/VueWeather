@@ -15,8 +15,9 @@ export const WEEK_DAYS: string[] = [
     "Saturday"
 ];
 
-export const FIVE_MINUTES_IN_MS = 300_000;
-export const ONE_SECOND_IN_MS = 1_000;
+export const FIVE_MINUTES_IN_MS: number = 300_000;
+export const ONE_SECOND_IN_MS: number = 1_000;
+export const KELVIN_TO_CELSIUS: number = 273.15;
 
 export interface WeatherForecast {
     name: string;
@@ -73,10 +74,8 @@ export async function fetchData(location: Location): Promise<WeatherForecast[]> 
 
 function processJSONdata(weather: WeatherData): WeatherForecast[] {
     const weatherForecastArray: WeatherForecast[] = [];
-    const KELVIN_TO_CELSIUS: number = 273.15;
 
     for (let i: number = 0; i < weather.list.length; i++) {
-
         const date: string = weather.list[i].dt_txt;
         const weekDayNumber: number = new Date(date).getDay();
         const weekDay: string = WEEK_DAYS[weekDayNumber];
@@ -99,13 +98,18 @@ function processJSONdata(weather: WeatherData): WeatherForecast[] {
     return weatherForecastArray;
 }
 
-export function fetchWeatherImage(icon: string): string | undefined {
-    fetch(`https://openweathermap.org/img/wn/${icon}.png`)
-        .then((response: Response) => response.blob())
-        .then((blob: Blob) => {
-            return URL.createObjectURL(blob);
-        }).catch(error => console.error(error));
-    return undefined;
+export async function fetchWeatherImage(icon: string): Promise<string> {
+    return new Promise(async (resolve, reject): Promise<void> => {
+        try {
+            const response = await fetch(`https://openweathermap.org/img/wn/${icon}.png`);
+            const blob = await response.blob();
+            console.log(URL.createObjectURL(blob));
+            resolve(URL.createObjectURL(blob));
+        } catch (error) {
+            console.error(error);
+            reject(undefined);
+        }
+    });
 }
 
 export function getTime(): string {
