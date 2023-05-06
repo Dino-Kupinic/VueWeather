@@ -4,6 +4,11 @@ import {ref} from "vue";
 export const useLocationStore = defineStore("location", () => {
     const location = ref<string>("");
     const country = ref<string>("");
+    const lastLocation = ref<string>("");
+
+    function updateLastLocation(newLocation: string): void {
+        lastLocation.value = newLocation;
+    }
 
     function updateLocation(newLocation: string): void {
         location.value = newLocation;
@@ -18,5 +23,5 @@ export const useLocationStore = defineStore("location", () => {
         country.value = "";
     }
 
-    return {location, country, updateLocation, updateCountry, $reset};
+    return {location, country, lastLocation, updateLocation, updateCountry, updateLastLocation, $reset};
 });
