@@ -4,7 +4,6 @@
         <ul>
             <li><ChoiceBox :country-list="countryCodes"/></li>
             <li><Searchbar/></li>
-            <li><Button text="Settings"/></li>
         </ul>
     </nav>
 </template>
@@ -12,7 +11,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import Searchbar from "@/components/Searchbar.vue";
-import Button from "@/components/Button.vue";
 import ChoiceBox from "@/components/ChoiceBox.vue";
 import {countries} from "@/scripts/countries";
 
