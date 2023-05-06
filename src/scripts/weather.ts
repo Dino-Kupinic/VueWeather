@@ -101,7 +101,7 @@ function processJSONdata(weather: WeatherData): WeatherForecast[] {
 export async function fetchWeatherImage(icon: string): Promise<string> {
     return new Promise(async (resolve, reject): Promise<void> => {
         try {
-            const response = await fetch(`https://openweathermap.org/img/wn/${icon}.png`);
+            const response = await fetch(`https://openweathermap.org/img/wn/${icon}@2x.png`);
             const blob = await response.blob();
             console.log(URL.createObjectURL(blob));
             resolve(URL.createObjectURL(blob));
