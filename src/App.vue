@@ -2,7 +2,7 @@
     <nav>
         <span class="router-nav"><RouterLink to="/">Home </RouterLink></span>
         <span class="router-nav"><RouterLink to="/faq">FAQ </RouterLink></span>
-        <span class="router-nav"><RouterLink to="/impressum"> Impressum</RouterLink></span>
+        <span class="router-nav"><RouterLink to="/impressum">Impressum </RouterLink></span>
     </nav>
     <RouterView/>
     <Footer></Footer>
@@ -15,12 +15,14 @@ import Footer from "@/components/Footer.vue";
 
 <style>
 nav {
-    font-size: 20px;
-    background-color: #eeecec;
+    font-size: 25px;
+    background-color: #e7ffef;
+    padding: 10px;
 }
 
 .router-nav {
     margin-right: 20px;
+    margin-left: 10px;
 }
 
 a {
@@ -28,7 +30,7 @@ a {
 }
 
 .router-link-exact-active {
-    color: orange;
+    color: #299cf8;
 }
 
 </style>

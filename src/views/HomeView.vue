@@ -11,11 +11,7 @@
 
     <div id="day-container">
         <div class="day" v-for="day of days">
-            <h1>{{ day.name }}</h1>
-            <h3>{{ day.averageTemperature }} °C</h3>
-            <p>Feels like {{ day.temperateFeelsLike }} °C</p>
-            <img :src="fetchWeatherImage(day.icon)" alt="noImage">
-            <h4>{{ day.currentWeather }}</h4>
+            <Day :data="day"></Day>
         </div>
     </div>
 </template>
@@ -23,11 +19,11 @@
 <script setup lang="ts">
 import {onMounted, ref, toRaw, watch} from "vue";
 import {Location} from "@/scripts/location";
-import {fetchData, fetchWeatherImage, FIVE_MINUTES_IN_MS, getDay, getTime, ONE_SECOND_IN_MS} from "@/scripts/weather";
+import {fetchData, FIVE_MINUTES_IN_MS, getDay, getTime, ONE_SECOND_IN_MS} from "@/scripts/weather";
 import type {WeatherForecast} from "@/scripts/weather";
 import Header from "@/components/Header.vue";
 import {useLocationStore} from "@/stores/locationStore";
-
+import Day from "@/components/Day.vue";
 
 const userInput = ref<string>("");
 const locationCountry = ref<string>("");
@@ -59,7 +55,6 @@ watch(userInput, async (newLocation) => {
         const weatherForecastArray: WeatherForecast[] = await fetchData(new Location(userInput.value, newLocation));
         if (weatherForecastArray.length != null || undefined) {
             for (const day of weatherForecastArray) {
-                console.log(day);
                 days.value.push(day);
             }
         }
