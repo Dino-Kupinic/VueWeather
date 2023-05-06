@@ -51,6 +51,10 @@ function getNewCountry(data: string): void {
 }
 
 watch(userInput, async (newLocation) => {
+    locationStore.updateLastLocation(newLocation);
+    if (locationStore.lastLocation === newLocation) {
+        days.value = [];
+    }
     if (newLocation !== "") {
         const weatherForecastArray: WeatherForecast[] = await fetchData(new Location(userInput.value, newLocation));
         if (weatherForecastArray.length != null || undefined) {
