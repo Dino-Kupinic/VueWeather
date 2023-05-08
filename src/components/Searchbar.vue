@@ -3,12 +3,16 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useLocationStore} from "@/stores/locationStore";
 
 const locationStore = useLocationStore();
 
 const location = ref<string>("");
+
+onMounted(() => {
+    location.value = locationStore.location;
+})
 
 </script>
 

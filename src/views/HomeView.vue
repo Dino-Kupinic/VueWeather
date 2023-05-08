@@ -70,11 +70,16 @@ watch(userInput, async (newLocation) => {
 onMounted(() => {
     updateTime();
     updateDay();
+    const city = localStorage.getItem("city");
+    const code = localStorage.getItem("code");
+    if (city != null && code != null) {
+        locationStore.updateLocation(city);
+        locationStore.updateCountry(code);
+    }
 });
 
 watch(() => locationStore.location, getNewLocation);
 watch(() => locationStore.country, getNewCountry);
-
 
 </script>
 

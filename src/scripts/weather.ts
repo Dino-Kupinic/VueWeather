@@ -66,6 +66,8 @@ export async function fetchData(location: Location): Promise<WeatherForecast[]> 
             .then((response: Response) => response.json())
             .then(data => {
                 resolve(processJSONdata(data));
+                localStorage.setItem("city", location.name);
+                localStorage.setItem("code", location.countryCode);
             }).catch(error => {
             reject(error);
         });
