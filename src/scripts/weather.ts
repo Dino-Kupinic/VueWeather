@@ -1,5 +1,9 @@
 import type {Location} from "@/scripts/location";
 
+export const FIVE_MINUTES_IN_MS: number = 300_000;
+export const ONE_SECOND_IN_MS: number = 1_000;
+export const KELVIN_TO_CELSIUS: number = 273.15;
+
 /**
  * Array containing all weekdays.
  * Starts with Sunday because Date.getDay() returns from 0 - 6, where
@@ -15,10 +19,9 @@ export const WEEK_DAYS: string[] = [
     "Saturday"
 ];
 
-export const FIVE_MINUTES_IN_MS: number = 300_000;
-export const ONE_SECOND_IN_MS: number = 1_000;
-export const KELVIN_TO_CELSIUS: number = 273.15;
-
+/**
+ * Type which contains the weather information that will be returned
+ */
 export interface WeatherForecast {
     name: string;
     windSpeed: number;
@@ -31,6 +34,9 @@ export interface WeatherForecast {
     icon: string;
 }
 
+/**
+ * Type to represent the json structure of the OpenWeatherAPI response
+ */
 export interface WeatherData {
     city: {
         coord: {
@@ -60,21 +66,29 @@ export interface WeatherData {
     }];
 }
 
+
+/**
+ * Fetches a json containing weather data
+ * @param location Location containing name and country code
+ */
 export async function fetchData(location: Location): Promise<WeatherForecast[]> {
-    return new Promise((resolve, reject): void => {
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location.name},${location.countryCode}&appid=d134cb284ef6ebbab66ea57a6b83f4f8`)
-            .then((response: Response) => response.json())
-            .then(data => {
-                resolve(processJSONdata(data));
-                localStorage.setItem("city", location.name);
-                localStorage.setItem("code", location.countryCode);
-            }).catch(error => {
+    return new Promise(async (resolve, reject): Promise<void> => {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location.name},${location.countryCode}&appid=d134cb284ef6ebbab66ea57a6b83f4f8`)
+            resolve(processJsonData(await response.json()));
+            localStorage.setItem("city", location.name);
+            localStorage.setItem("code", location.countryCode);
+        } catch (error) {
             reject(error);
-        });
+        }
     });
 }
 
-function processJSONdata(weather: WeatherData): WeatherForecast[] {
+/**
+ * Processes the data and returns an array containing the data
+ * @param weather
+ */
+function processJsonData(weather: WeatherData): WeatherForecast[] {
     const weatherForecastArray: WeatherForecast[] = [];
 
     for (let i: number = 0; i < weather.list.length; i++) {
@@ -100,12 +114,15 @@ function processJSONdata(weather: WeatherData): WeatherForecast[] {
     return weatherForecastArray;
 }
 
+/**
+ * Gets the weather image to be used for each day
+ * @param icon icon string, "10d" for example
+ */
 export async function fetchWeatherImage(icon: string): Promise<string> {
     return new Promise(async (resolve, reject): Promise<void> => {
         try {
             const response = await fetch(`https://openweathermap.org/img/wn/${icon}@2x.png`);
             const blob = await response.blob();
-            console.log(URL.createObjectURL(blob));
             resolve(URL.createObjectURL(blob));
         } catch (error) {
             console.error(error);
